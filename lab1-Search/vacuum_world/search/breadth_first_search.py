@@ -66,7 +66,7 @@ class BreadthFirstSearch(BaseSearch):
     
     
     def get_frontier_nodes(self) -> List[SearchNode]:
-        return self.frontier
+        return list(self.frontier)
     
     def get_explored_nodes(self) -> List[SearchNode]:
         return self.explored
