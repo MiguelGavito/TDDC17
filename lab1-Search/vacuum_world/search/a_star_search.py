@@ -103,11 +103,11 @@ class AStarSearch(BaseSearch):
     
     
     def get_frontier_nodes(self) -> List[SearchNode]:
-        return []
+        return [item[2] for item in self.frontier]
     
     def get_explored_nodes(self) -> List[SearchNode]:
-        return []
+        return self.explored
     
     def get_all_expanded_nodes(self) -> List[SearchNode]:
-        return []
+        return self.get_explored_nodes() + self.get_frontier_nodes()
     
