@@ -1,0 +1,5 @@
+1. there is no so much difference between the 2 in a domain where the cost of each action is 1. On this domain the acumulated cost and sum of jumps work the same for the election.
+
+2.  A (h1 + h2)/2, and C max(h1;h2), the max of h1 or h2 is always admisible no matter which one and the half of h1 and h2 is always going to be the half or minor than the adminisible. 
+
+3.  
