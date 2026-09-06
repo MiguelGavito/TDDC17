@@ -31,6 +31,7 @@ class BreadthFirstSearch(BaseSearch):
 
         self.frontier.append(current_node)
 
+        visited_states = {initial_state}
 
 
         while self.frontier:
@@ -59,8 +60,11 @@ class BreadthFirstSearch(BaseSearch):
             
             # add succesors to frontier
             for successor in successors:
-                next_node = SearchNode(successor,current_node,None,current_node.get_cost() + 1)
+                if successor in visited_states:
+                    continue
+                next_node = SearchNode(successor, current_node, None, current_node.get_cost() + 1)
                 self.frontier.append(next_node)
+                visited_states.add(successor)
         
         return []
     

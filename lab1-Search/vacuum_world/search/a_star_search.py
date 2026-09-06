@@ -58,6 +58,7 @@ class AStarSearch(BaseSearch):
         heapq.heappush(self.frontier, (priority, self.counter, current_node))
         self.counter += 1
 
+        best_g = {initial_state: 0.0}
 
         while self.frontier:
             priority, _, current_node = heapq.heappop(self.frontier)
@@ -85,19 +86,19 @@ class AStarSearch(BaseSearch):
 
             # add successors to frontier
             for successor in successors:
-                h = successor.distance_manhattan(problem.goal_state)
-                next_node = AStarNode(
-                    successor,
-                    current_node,
-                    None,
-                    current_node.get_cost()+1,
-                    h
-                )
-                heapq.heappush(self.frontier, (h + next_node.get_cost(), self.counter, next_node))
-                self.counter += 1
-        
+                new_g = current_node.get_cost() + 1
+                if successor in best_g and new_g >= best_g[successor]:
+                    continue
+                best_g[successor] = new_g
 
-            
+                h = successor.distance_manhattan(problem.goal_state)
+                next_node = AStarNode(successor, current_node, None, new_g, h)
+                priority = new_g + h
+                heapq.heappush(self.frontier, (priority, self.counter, next_node))
+                self.counter += 1
+                        
+
+                            
         return []
 
     
