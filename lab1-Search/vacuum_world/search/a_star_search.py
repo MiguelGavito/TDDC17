@@ -42,7 +42,7 @@ class AStarSearch(BaseSearch):
         # Tailor the following data structures to the needs of the search algorithm
         self.frontier = []
         self.explored = []
-        self.counter = 0
+        self.counter = 0    # counter to difference two nodes with the same heuristic to the goal
     
     def search(self, problem: SearchProblem) -> List[SearchNode]:
         """
