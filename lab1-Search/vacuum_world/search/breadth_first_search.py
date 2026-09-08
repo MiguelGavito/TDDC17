@@ -22,7 +22,7 @@ class BreadthFirstSearch(BaseSearch):
     
     def search(self, problem: SearchProblem) -> List[SearchNode]:
         """
-        Perfomr a breath first search to find all the dirty places.
+        Perform a breath first search to find all the dirty places.
         """
         self.path = []
 

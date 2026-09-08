@@ -65,6 +65,9 @@ class AStarSearch(BaseSearch):
             current_node: AStarNode
             current_state = current_node.get_state()
 
+            # ignore an outdated node
+            if current_node.get_cost() > best_g[current_state]:
+                continue
             
             #Check if we ve reached the goal
             if problem.is_goal_state(current_state):
