@@ -24,8 +24,10 @@ class State:
 
     @property
     def score(self) -> int:
-        # TODO: Complete this method
-        return 0
+        #Get the score of the current state, positive ->player 0, negative -> player 1
+        store_p0 = self.pits[PLAYER_0_STORE]
+        store_p1 = self.pits[PLAYER_1_STORE]
+        return store_p0 - store_p1
 
     def next_state(self, pit):
         """
