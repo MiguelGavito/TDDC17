@@ -97,14 +97,14 @@ class AlphaBeta(AI):
                     best_value = value
                     best_move = move
                 # Actualizar alpha usando None
-                if alpha is float('-inf') or best_value > alpha:
+                if best_value > alpha:
                     alpha = best_value
             else:  # MIN
                 if best_value is None or value < best_value:
                     best_value = value
                     best_move = move
                 # Actualizar beta usando None
-                if beta is float('inf') or best_value < beta:
+                if best_value < beta:
                     beta = best_value
         
 
@@ -131,11 +131,11 @@ class AlphaBeta(AI):
                 # set and update 
                 if best_value is None or value > best_value:
                     best_value = value
-                if alpha is None or best_value > alpha:
+                if best_value > alpha:
                     alpha = best_value
 
-                # check for pruning condition considering that alpha can be None
-                if beta is not None and alpha is not None and alpha >= beta:
+                # check for pruning condition 
+                if  alpha >= beta:
                     AlphaBeta.pruned_branches += 1
                     break
             return best_value
@@ -148,11 +148,11 @@ class AlphaBeta(AI):
                 # set and update 
                 if best_value is None or value < best_value:
                     best_value = value
-                if beta is None or best_value < beta:
+                if best_value < beta:
                     beta = best_value
 
                 # check for pruning condition considering that alpha can be None
-                if alpha is not None and beta is not None and alpha >= beta:
+                if alpha >= beta:
                     AlphaBeta.pruned_branches += 1
                     break
                 
