@@ -3,7 +3,7 @@ import random
 from game import AI, State, Objective
 
 
-MAX_DEPTH = 8
+MAX_DEPTH = 10000
 
 
 def _pick_move(utilities, objective: Objective):
