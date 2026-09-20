@@ -13,7 +13,7 @@ from utils import Singleton
 
 
 class Objective(Enum):
-    MIN = 0,
+    MIN = 0
     MAX = 1
 
 
