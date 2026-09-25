@@ -118,7 +118,7 @@ class AlphaBeta(AI):
     @staticmethod
     def alphabeta(state: State, depth: int, alpha: float, beta: float):
         AlphaBeta.expanded_nodes += 1
-        MAX_DEPTH = 8
+        MAX_DEPTH = 9
         moves = state.available_moves()
 
         # Terminal state condition or depth limit reached
