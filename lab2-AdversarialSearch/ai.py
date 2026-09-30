@@ -47,7 +47,7 @@ class MinMax(AI):
     @staticmethod
     def minmax(state: State, depth: int):
         MinMax.expanded_nodes += 1
-        MAX_DEPTH = 8
+        MAX_DEPTH = 9
         moves = state.available_moves()
 
         # Terminal state condition or depth limit reached

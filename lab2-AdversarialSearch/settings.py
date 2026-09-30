@@ -1,7 +1,7 @@
 from utils import Position
 
 # Game setups
-SEEDS = 4
+SEEDS = 5
 PITS_PER_PLAYER = 6 # PLAYABLE pits per player
 
 # AI setup

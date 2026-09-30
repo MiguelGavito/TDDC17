@@ -14,7 +14,7 @@ def main():
 
     game = Game()
     # Set the AI for player 0 and player 1, respectively
-    game.set_ai_players(AlphaBeta, AlphaBeta)  # You can change the AI for each player here
+    game.set_ai_players(MinMax, MinMax)  # You can change the AI for each player here
     game.initialize()
 
     game.run()
