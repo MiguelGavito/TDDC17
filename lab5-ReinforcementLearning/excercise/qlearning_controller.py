@@ -66,9 +66,15 @@ class QLearningController:
         self.vy = self.cso.getObjectById("vy")
         self.angle = self.cso.getObjectById("angle")
 
+        # print(f"angle={self.angle:.2f}, vx={self.vx:.2f}, vy={self.vy:.2f}")
+        # f"X: {self.x} \nY: {self.y}"
+        
+
         self.previous_vy = self.vy.getValue()
         self.previous_vx = self.vx.getValue()
         self.previous_angle = self.angle.getValue()
+
+        
 
         self.left_engine = self.cso.getObjectById("rocket_engine_left")
         self.right_engine = self.cso.getObjectById("rocket_engine_right")
@@ -87,12 +93,41 @@ class QLearningController:
         # Explicitly switch off every engine that the action does not use.
         self.reset_rockets()
 
+        if action == 1:
+            self.middle_engine.setBursting(True)
+        elif action == 2:
+            self.left_engine.setBursting(True)
+        elif action == 3:
+            self.right_engine.setBursting(True)
+
     def tick(self, current_time):
         """Main decision loop. Called every iteration by the simulator."""
         self.iteration += 1
 
         if self.paused:
             return
+
+        #Codigo que hice de tutorial 
+        # if self.vy.getValue() > -100:
+        #     self.middle_engine.setBursting(True)
+        # else:
+        #     self.middle_engine.setBursting(False)
+
+        # if self.vx.getValue() > 10:
+        #     self.right_engine.setBursting(True)
+        # elif self.vx.getValue() < -10:
+        #     self.left_engine.setBursting(True)
+        # else:
+        #     self.left_engine.setBursting(False)
+        #     self.right_engine.setBursting(False)
+
+
+        if self.iteration % 10 == 0:
+            print(
+                f"angle={self.angle.getValue():.2f}, "
+                f"vx={self.vx.getValue():.2f}, "
+                f"vy={self.vy.getValue():.2f}"
+            )
 
         # Exercise 4: Change these angle functions to the hover functions after
         # the angle controller works.
@@ -101,6 +136,7 @@ class QLearningController:
             self.vx.getValue(),
             self.vy.getValue(),
         )
+
 
         # Repeat the chosen action for a while, hoping to reach a new state.
         # This is a trick to speed up learning on this problem.
@@ -135,6 +171,15 @@ class QLearningController:
             # Exercise 3: Implement the Q-learning update here. Use
             # previous_reward, alpha(), GAMMA_DISCOUNT_FACTOR, and
             # get_max_action_q_value().
+            prev_q = self.qtable[prev_stateaction]
+            best_next_q = self.get_max_action_q_value(new_state)
+            alpha = self.alpha(self.ntable[prev_stateaction])
+
+            self.qtable[prev_stateaction] = prev_q + alpha * (
+                previous_reward
+                + self.GAMMA_DISCOUNT_FACTOR * best_next_q
+                - prev_q
+            )
 
             action = self.select_action(new_state)
             self.perform_action(action)
@@ -160,6 +205,7 @@ class QLearningController:
             self.previous_vx = self.vx.getValue()
             self.previous_angle = self.angle.getValue()
             self.previous_action = action
+
 
         self.previous_state = new_state
 

@@ -7,7 +7,19 @@ class StateAndReward:
 
         # Exercise 1a: Discretize the angle and return a unique state.
 
-        state = "angle-state-not-implemented"
+                
+        # 3 states base Recto, Izq, Der
+        # solo dice a donde apunta
+        # el angulo esta en punto decimal, 0.0 es hacia arriba 3.14 es apuntar hacia abajo
+        # los numeros positivos es que esta mirando a la derecha
+        # los negativos significa que hacia la izquierda, son espejo uno de otro
+
+        if abs(angle) < 1:
+            state = "Upward"
+        elif angle > 0:
+            state = "Rightward"
+        else:
+            state = "Leftward"
 
         return state
 
@@ -18,6 +30,21 @@ class StateAndReward:
         # Exercise 1b: Return a reward that favors an upright rocket.
 
         reward = 0
+
+        if abs(angle) < 0.6:
+            reward += 5
+
+        if abs(vx) < 30:
+            reward += 5
+
+        if vy < 0:
+            reward += 10
+
+        # if vy < -300:
+        #     reward += 15
+
+
+        
 
         return reward
 
