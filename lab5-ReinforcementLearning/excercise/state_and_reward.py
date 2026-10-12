@@ -31,14 +31,20 @@ class StateAndReward:
 
         reward = 0
 
-        if abs(angle) < 0.6:
-            reward += 5
+        if abs(angle) < 0.8:
+            reward += 12
 
-        if abs(vx) < 30:
-            reward += 5
+            if abs(angle) < 0.4:
+                reward += 16
+
+        if abs(vx) > 50:
+            reward -= 5
 
         if vy < 0:
-            reward += 10
+            reward += 15
+
+        if vy > 0:
+            reward -= 5
 
         # if vy < -300:
         #     reward += 15
