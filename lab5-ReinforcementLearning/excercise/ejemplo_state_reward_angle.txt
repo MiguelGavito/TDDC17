@@ -1,0 +1,52 @@
+Ejemplo de estados y recompensa para el controlador de angulo
+
+Objetivo:
+- Mantener el cohete lo mas vertical posible.
+- En el controlador de angulo, la recompensa deberia depender sobre todo del angulo.
+- La velocidad vertical no deberia dominar el reward de este ejercicio.
+
+Ejemplo de estados correctos:
+
+1) angle = 0.05 rad, vx = 0, vy = 0
+   state = Upward
+   Interpretacion: el cohete esta casi recto.
+
+2) angle = -0.40 rad, vx = 10, vy = -20
+   state = Upward
+   Interpretacion: aun esta suficientemente cerca de vertical.
+
+3) angle = 1.20 rad, vx = 0, vy = 0
+   state = Rightward
+   Interpretacion: el cohete esta inclinado hacia la derecha.
+
+4) angle = -1.30 rad, vx = 0, vy = 0
+   state = Leftward
+   Interpretacion: el cohete esta inclinado hacia la izquierda.
+
+Ejemplo de recompensa buena para angulo:
+
+- angle muy cerca de 0 -> recompensa alta
+- angle moderadamente cerca de 0 -> recompensa media
+- angle lejos de 0 -> recompensa baja o incluso negativa
+
+Ejemplo simple de recompensa pensada para aprender bien:
+
+- abs(angle) < 0.3  -> reward = 20
+- abs(angle) < 0.8  -> reward = 10
+- else              -> reward = 0 o -5
+
+Por que esto funciona mejor:
+- El agente aprende que la prioridad es estar recto.
+- No mezcla la meta de estabilizar el angulo con la de subir o bajar rapido.
+- La Q-table recibe una senal mas clara.
+
+Ejemplo de recompensa que puede confundir:
+- Dar muchos puntos por vy < 0
+- Dar mas puntos aun por vy muy negativo
+
+Eso puede hacer que el agente aprenda a moverse fuerte hacia arriba en vez de mantenerse estable.
+
+Resumen corto:
+- Estado: solo angulo, discretizado en pocas categorias.
+- Recompensa: centrada en cuan vertical esta el cohete.
+- Para este ejercicio, vx y vy no deberian dominar el reward.

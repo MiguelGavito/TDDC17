@@ -37,17 +37,17 @@ class StateAndReward:
             if abs(angle) < 0.4:
                 reward += 16
 
-        if abs(vx) > 50:
-            reward -= 5
+        if abs(vx) < 20:
+            reward += 8
 
         if vy < 0:
             reward += 15
 
         if vy > 0:
-            reward -= 5
+            reward -= 30
 
-        # if vy < -300:
-        #     reward += 15
+        if vy < -300:
+            reward += 15
 
 
         

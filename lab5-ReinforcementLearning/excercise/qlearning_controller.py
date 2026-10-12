@@ -99,6 +99,17 @@ class QLearningController:
             self.left_engine.setBursting(True)
         elif action == 3:
             self.right_engine.setBursting(True)
+        elif action == 4:
+            self.middle_engine.setBursting(True)
+            self.left_engine.setBursting(True)
+        elif action == 5:
+            self.middle_engine.setBursting(True)
+            self.right_engine.setBursting(True)
+        elif action == 6:
+            self.middle_engine.setBursting(True)
+            self.left_engine.setBursting(True)
+            self.right_engine.setBursting(True)
+          
 
     def tick(self, current_time):
         """Main decision loop. Called every iteration by the simulator."""
