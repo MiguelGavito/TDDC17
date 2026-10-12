@@ -89,35 +89,43 @@ class StateAndReward:
         """Reward function for the full hover controller."""
 
         # Exercise 4b: Return a reward for hovering.
-        reward = 0
-        reward_angle = 0
-        reward_vx = 0
-        reward_vy = 0
+        a = abs(angle)
+        x = abs(vx)
+        y = abs(vy)
 
-        if abs(angle) < 0.2:
-            reward_angle = 20
-        elif abs(angle) < 0.6:
-            reward_angle = 10
+        # Angle should dominate (prevent flip)
+        if a < 0.15:
+            r_angle = 40
+        elif a < 0.35:
+            r_angle = 25
+        elif a < 0.7:
+            r_angle = 10
+        elif a < 1.1:
+            r_angle = -10
         else:
-            reward_angle = 0
+            r_angle = -35
 
-        if abs(vx) < 5:
-            reward_vx = 20
-        elif abs(vx) < 20:
-            reward_vx = 0
+        # Horizontal stability
+        if x < 4:
+            r_vx = 12
+        elif x < 12:
+            r_vx = 6
+        elif x < 25:
+            r_vx = 0
         else:
-            reward_vx = 0
+            r_vx = -8
 
-        if abs(vy) < 5:
-            reward_vy = 20
-        elif abs(vy) < 20:
-            reward_vy = 0
+        # Vertical stability (hover => near zero, not just negative)
+        if y < 4:
+            r_vy = 12
+        elif y < 12:
+            r_vy = 6
+        elif y < 25:
+            r_vy = 0
         else:
-            reward_vy = 0
-        
-        reward = reward_vx + reward_angle + reward_vy
-        
-        return reward
+            r_vy = -10
+
+        return r_angle + r_vx + r_vy
 
     @staticmethod
     def discretize(value, nr_values, min_value, max_value):
