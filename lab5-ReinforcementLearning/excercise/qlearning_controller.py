@@ -99,16 +99,16 @@ class QLearningController:
             self.left_engine.setBursting(True)
         elif action == 3:
             self.right_engine.setBursting(True)
-        elif action == 4:
-            self.middle_engine.setBursting(True)
-            self.left_engine.setBursting(True)
-        elif action == 5:
-            self.middle_engine.setBursting(True)
-            self.right_engine.setBursting(True)
-        elif action == 6:
-            self.middle_engine.setBursting(True)
-            self.left_engine.setBursting(True)
-            self.right_engine.setBursting(True)
+        # elif action == 4:
+        #     self.middle_engine.setBursting(True)
+        #     self.left_engine.setBursting(True)
+        # elif action == 5:
+        #     self.middle_engine.setBursting(True)
+        #     self.right_engine.setBursting(True)
+        # elif action == 6:
+        #     self.middle_engine.setBursting(True)
+        #     self.left_engine.setBursting(True)
+        #     self.right_engine.setBursting(True)
           
 
     def tick(self, current_time):
@@ -142,7 +142,7 @@ class QLearningController:
 
         # Exercise 4: Change these angle functions to the hover functions after
         # the angle controller works.
-        new_state = StateAndReward.get_state_angle(
+        new_state = StateAndReward.get_state_hover(
             self.angle.getValue(),
             self.vx.getValue(),
             self.vy.getValue(),
@@ -158,7 +158,7 @@ class QLearningController:
         ):
             return
 
-        previous_reward = StateAndReward.get_reward_angle(
+        previous_reward = StateAndReward.get_reward_hover(
             self.previous_angle,
             self.previous_vx,
             self.previous_vy,

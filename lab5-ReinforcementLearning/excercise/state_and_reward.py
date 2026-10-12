@@ -14,14 +14,17 @@ class StateAndReward:
         # los numeros positivos es que esta mirando a la derecha
         # los negativos significa que hacia la izquierda, son espejo uno de otro
 
-        if abs(angle) < 1:
-            state = "Upward"
-        elif angle > 0:
-            state = "Rightward"
+        if angle < -1.2:
+            return "FarLeft"
+        elif angle < -0.4:
+            return "Left"
+        elif angle < 0.4:
+            return "Upward"
+        elif angle < 1.2:
+            return "Right"
         else:
-            state = "Leftward"
+            return "FarRight"
 
-        return state
 
     @staticmethod
     def get_reward_angle(angle, vx, vy):
@@ -31,26 +34,12 @@ class StateAndReward:
 
         reward = 0
 
-        if abs(angle) < 0.8:
-            reward += 12
-
-            if abs(angle) < 0.4:
-                reward += 16
-
-        if abs(vx) < 20:
-            reward += 8
-
-        if vy < 0:
-            reward += 15
-
-        if vy > 0:
-            reward -= 30
-
-        if vy < -300:
-            reward += 15
-
-
-        
+        if abs(angle) < 0.2:
+            reward = 20
+        elif abs(angle) < 0.6:
+            reward = 10
+        else:
+            reward = 0
 
         return reward
 
@@ -60,18 +49,74 @@ class StateAndReward:
 
         # Exercise 4a: Build a state from angle, vx, and vy.
 
-        state = "hover-state-not-implemented"
+        if angle < -1.2:
+            angle_state = "FarLeft"
+        elif angle < -0.4:
+            angle_state = "Left"
+        elif angle < 0.4:
+            angle_state = "Upward"
+        elif angle < 1.2:
+            angle_state = "Right"
+        else:
+            angle_state = "FarRight"
 
-        return state
+        if vx < -50:
+            vx_state = "FarLeftX"
+        elif vx < -10:
+            vx_state = "LeftX"
+        elif vx < 10:
+            vx_state = "BalancedX"
+        elif vx < 50:
+            vx_state = "RightX"
+        else:
+            vx_state = "FarRightX"
+
+        if vy < -50:
+            vy_state = "FarDownY"
+        elif vy < -10:
+            vy_state = "DownY"
+        elif vy < 10:
+            vy_state = "BalancedY"
+        elif vy < 50:
+            vy_state = "UpY"
+        else:
+            vy_state = "FarUpY"
+
+        return [angle_state, vx_state, vy_state]
 
     @staticmethod
     def get_reward_hover(angle, vx, vy):
         """Reward function for the full hover controller."""
 
         # Exercise 4b: Return a reward for hovering.
-
         reward = 0
+        reward_angle = 0
+        reward_vx = 0
+        reward_vy = 0
 
+        if abs(angle) < 0.2:
+            reward_angle = 20
+        elif abs(angle) < 0.6:
+            reward_angle = 10
+        else:
+            reward_angle = 0
+
+        if abs(vx) < 5:
+            reward_vx = 20
+        elif abs(vx) < 20:
+            reward_vx = 0
+        else:
+            reward_vx = 0
+
+        if abs(vy) < 5:
+            reward_vy = 20
+        elif abs(vy) < 20:
+            reward_vy = 0
+        else:
+            reward_vy = 0
+        
+        reward = reward_vx + reward_angle + reward_vy
+        
         return reward
 
     @staticmethod
