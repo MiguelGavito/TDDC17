@@ -96,7 +96,7 @@ class StateAndReward:
         # Angle should dominate (prevent flip)
         if a < 0.15:
             r_angle = 40
-        elif a < 0.35:
+        elif a < 0.30:
             r_angle = 25
         elif a < 0.7:
             r_angle = 10
