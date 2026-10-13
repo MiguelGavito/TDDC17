@@ -45,88 +45,91 @@ class StateAndReward:
 
     @staticmethod
     def get_state_hover(angle, vx, vy):
-        """State discretization function for the full hover controller."""
+        """Discretize angle and velocities into states."""
 
-        # Exercise 4a: Build a state from angle, vx, and vy.
-
-        if angle < -1.2:
+        # Angle: upright is best
+        if angle < -1.1:
             angle_state = "FarLeft"
-        elif angle < -0.4:
+        elif angle < -0.3:
             angle_state = "Left"
-        elif angle < 0.4:
+        elif angle < 0.3:
             angle_state = "Upward"
-        elif angle < 1.2:
+        elif angle < 1.1:
             angle_state = "Right"
         else:
             angle_state = "FarRight"
 
-        if vx < -50:
+        # Horizontal velocity: stationary is best
+        if vx < -25:
             vx_state = "FarLeftX"
         elif vx < -10:
             vx_state = "LeftX"
+        elif vx < 4:
+            vx_state = "BalancedX" if vx >= -4 else "LeftX"
         elif vx < 10:
-            vx_state = "BalancedX"
-        elif vx < 50:
             vx_state = "RightX"
         else:
             vx_state = "FarRightX"
 
-        if vy < -50:
+        # Vertical velocity: near zero is best
+        if vy < -25:
             vy_state = "FarDownY"
         elif vy < -10:
             vy_state = "DownY"
-        elif vy < 10:
+        elif vy < -4:
             vy_state = "BalancedY"
-        elif vy < 50:
+        elif vy <= 4:
+            vy_state = "BalancedY"
+        elif vy < 10:
             vy_state = "UpY"
         else:
             vy_state = "FarUpY"
 
         return [angle_state, vx_state, vy_state]
 
+
     @staticmethod
     def get_reward_hover(angle, vx, vy):
-        """Reward function for the full hover controller."""
+        """Reward staying upright and hovering in place."""
 
-        # Exercise 4b: Return a reward for hovering.
         a = abs(angle)
         x = abs(vx)
         y = abs(vy)
 
-        # Angle should dominate (prevent flip)
-        if a < 0.15:
-            r_angle = 40
-        elif a < 0.30:
+        # Angle should dominate the reward.
+        if a < 0.2:
+            r_angle = 50
+        elif a < 0.5:
             r_angle = 25
-        elif a < 0.7:
-            r_angle = 10
-        elif a < 1.1:
-            r_angle = -10
+        elif a < 0.9:
+            r_angle = 5
+        elif a < 1.3:
+            r_angle = -20
         else:
-            r_angle = -35
+            r_angle = -40
 
-        # Horizontal stability
+        # Horizontal velocity should help, but not dominate the angle.
         if x < 4:
-            r_vx = 12
-        elif x < 12:
-            r_vx = 6
+            r_vx = 15
+        elif x < 10:
+            r_vx = 8
         elif x < 25:
             r_vx = 0
         else:
-            r_vx = -8
+            r_vx = -10
 
-        # Vertical stability (hover => near zero, not just negative)
+        # Vertical velocity should be near zero for a stable hover.
         if y < 4:
-            r_vy = 12
-        elif y < 12:
-            r_vy = 6
+            r_vy = 15
+        elif y < 10:
+            r_vy = 8
         elif y < 25:
             r_vy = 0
         else:
-            r_vy = -10
+            r_vy = -8
 
         return r_angle + r_vx + r_vy
-
+        
     @staticmethod
     def discretize(value, nr_values, min_value, max_value):
         """Uniform discretization with explicit underflow and overflow bins.

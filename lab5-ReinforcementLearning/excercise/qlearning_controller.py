@@ -14,7 +14,7 @@ class QLearningController:
     # Parameters of the learning algorithm. These may be tuned.
     GAMMA_DISCOUNT_FACTOR = 0.95
     LEARNING_RATE_CONSTANT = 10
-    REPEAT_ACTION_MAX = 30
+    REPEAT_ACTION_MAX = 30 # 30
 
     def __init__(self):
         # The simulator sets this before calling init().
@@ -251,12 +251,18 @@ class QLearningController:
 
         # Find action with highest Q-value in the given state.
         max_qval = float("-inf")
+        best_actions = []
         for i in range(self.NUM_ACTIONS):
             test_pair = f"{state}{i}"
             qval = self.qtable.get(test_pair, 0)
             if qval > max_qval:
                 max_qval = qval
-                action = i
+                best_actions = [i]
+            elif qval == max_qval:
+                best_actions.append(i)
+
+        if best_actions:
+            action = random.choice(best_actions)
 
         return action
 
